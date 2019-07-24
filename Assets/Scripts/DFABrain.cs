@@ -13,7 +13,6 @@ public class DFABrain : MonoBehaviour
 
     private string inputValue = "";
     private State startState;
-    private State state;
 
     private void Awake()
     {
@@ -22,6 +21,13 @@ public class DFABrain : MonoBehaviour
 
     public void Solve()
     {
+        ShowSteps.Instance.counter = 0;
+
+        foreach (var s in Steps)
+        {
+            s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        
         Relation rel = null;
         Steps.Clear();
         inputValue = input.text;

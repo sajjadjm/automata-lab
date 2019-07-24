@@ -5,7 +5,7 @@ using UnityEngine;
 public class TuringRelation : Relation
 {
     public char valueToChange;
-    public bool isRight;
+    public bool isRight = false;
     
     public TuringRelation(State startS, State endS, GameObject arrow, LineRenderer line, Vector3 startP, Vector3 endP)
         : base(startS, endS, arrow, line, startP, endP) {}

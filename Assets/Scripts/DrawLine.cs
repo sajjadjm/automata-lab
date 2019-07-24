@@ -265,7 +265,7 @@ public class DrawLine : MonoBehaviour
                 {
                     startState.stateGameObject.transform.Find("ReturnRel").GetComponent<SpriteRenderer>().enabled = true;
                     Arrow = startState.stateGameObject;
-                    Relation rel = new Relation(startState, startState, startState.stateGameObject.transform.position,
+                    TuringRelation rel = new TuringRelation(startState, startState, startState.stateGameObject.transform.position,
                         startState.stateGameObject.transform.position);
                     rel.isReturn = true;
                     Relations.Add(rel);

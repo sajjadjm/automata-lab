@@ -1,11 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShowSteps : MonoBehaviour
 {
-    private int counter = 0;
-    
+    public static ShowSteps Instance;
+    public int counter = 0;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     public void ShowStep()
     {
         if (counter == DFABrain.Instance.Steps.Count - 1)
