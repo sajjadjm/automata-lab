@@ -11,6 +11,7 @@ public class Tape : MonoBehaviour
     public List<GameObject> Sectors = new List<GameObject>();
     public int counter = 0;
     public GameObject startSector;
+    public bool canResetTape = true;
     
     private int sectorCounter;
 
@@ -45,6 +46,21 @@ public class Tape : MonoBehaviour
 
     public void showSteps()
     {
+        if (canResetTape)
+        {
+            foreach (var s in Sectors)
+            {
+                s.transform.Find("Text").GetComponent<TextMeshPro>().text = "#";
+            }
+            
+            for (int i = 0; i < TuringBrain.Instance.inputValue.Length; i++)
+            {
+                Sectors[7 + i].transform.Find("Text").GetComponent<TextMeshPro>().text = TuringBrain.Instance.inputValue[i].ToString();
+            }
+
+            canResetTape = false;
+        }
+        
         if (counter == TuringBrain.Instance.Steps.Count - 1)
         {
             TuringBrain.Instance.Steps[counter].stateGameObject.GetComponent<SpriteRenderer>().color = Color.red;
