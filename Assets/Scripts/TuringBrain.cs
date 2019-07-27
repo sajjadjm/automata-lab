@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,10 +11,8 @@ public class TuringBrain : MonoBehaviour
     public InputField input;
     public bool Accepted = true;
     public List<State> Steps = new List<State>();
-    public List<bool> CurserMoves = new List<bool>();
     public List<TuringRelation> Rels = new List<TuringRelation>();
     public string inputValue = "";
-    private State startState;
 
     private void Awake()
     {
@@ -21,9 +20,11 @@ public class TuringBrain : MonoBehaviour
     }
 
     public void Solve()
-    {
+    { 
+        State startState = null;
         Tape.Instance.counter = 0;
         TuringRelation rel = null;
+        GameObject startSector = Tape.Instance.startSector;
         
         foreach (var s in Steps)
         {
@@ -32,9 +33,7 @@ public class TuringBrain : MonoBehaviour
         
         foreach (var s in Tape.Instance.Sectors)
         {
-            s.transform.Find("#").gameObject.SetActive(true);
-            s.transform.Find("1").gameObject.SetActive(false);
-            s.transform.Find("0").gameObject.SetActive(false);
+            s.transform.Find("Text").GetComponent<TextMeshPro>().text = "#";
         }
         
         Steps.Clear();
@@ -43,26 +42,7 @@ public class TuringBrain : MonoBehaviour
 
         for (int i = 0; i < inputValue.Length; i++)
         {
-            if (TuringBrain.Instance.inputValue[i] == '1')
-            {
-                Tape.Instance.Sectors[7 + i].transform.Find("1").gameObject.SetActive(true);
-                Tape.Instance.Sectors[7 + i].transform.Find("0").gameObject.SetActive(false);
-                Tape.Instance.Sectors[7 + i].transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.inputValue[i] == '0')
-            {
-                Tape.Instance.Sectors[7 + i].transform.Find("0").gameObject.SetActive(true);
-                Tape.Instance.Sectors[7 + i].transform.Find("1").gameObject.SetActive(false);
-                Tape.Instance.Sectors[7 + i].transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.inputValue[i] == '#')
-            {
-                Tape.Instance.Sectors[7 + i].transform.Find("#").gameObject.SetActive(true);
-                Tape.Instance.Sectors[7 + i].transform.Find("1").gameObject.SetActive(false);
-                Tape.Instance.Sectors[7 + i].transform.Find("0").gameObject.SetActive(false);
-            }
+            Tape.Instance.Sectors[7 + i].transform.Find("Text").GetComponent<TextMeshPro>().text = inputValue[i].ToString();
         }
         
         foreach (var s in DrawState.Instance.States)
@@ -73,51 +53,58 @@ public class TuringBrain : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < inputValue.Length; i++)
+        for (int i = 0 ;; i++)
         {
             Steps.Add(startState);
+            
 
             if (startState.relatedOutLines.Count == 0)
             {
-                Accepted = false;
+                if (!startState.isEnd)
+                {
+                    Accepted = false;
+                }
+
                 break;
             }
 
             foreach (var r in startState.relatedOutLines)
             {
-                if (r.value == inputValue[i])
+                Debug.Log(r.value);
+                Debug.Log(startSector.transform.Find("Text").GetComponent<TextMeshPro>().text[0]);
+                if (r.value == startSector.transform.Find("Text").GetComponent<TextMeshPro>().text[0])
                 {
                     rel = (TuringRelation)r;
+                    startState = rel.endState;
                     Rels.Add(rel);
-                    CurserMoves.Add(rel.isRight);
                 }
             }
 
             if (rel == null)
             {
-                Accepted = false;
+                if (!rel.startState.isEnd)
+                {
+                    Accepted = false;
+                }
+                
                 break;
             }
             
-            if ((i == inputValue.Length - 1 || (inputValue.Length == 1 && i == 0)) && rel != null && !rel.endState.isEnd)
+            if (rel.isRight)
             {
-                Accepted = false;
+                startSector = Tape.Instance.Sectors[Tape.Instance.Sectors.IndexOf(startSector) + 1];
+                startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = rel.valueToChange.ToString();
             }
-
-            if (i == inputValue.Length - 1 && rel != null)
+            
+            else
             {
-                Steps.Add(rel.endState);
-            }
-
-            if (rel != null)
-            {
-                startState = rel.endState;
+                startSector = Tape.Instance.Sectors[Tape.Instance.Sectors.IndexOf(startSector) - 1];
+                startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = rel.valueToChange.ToString();
             }
         }
 
         Debug.Log(Accepted);
-
-        input.text = "";
         Accepted = true;
+        Tape.Instance.counter = 0;
     }
 }

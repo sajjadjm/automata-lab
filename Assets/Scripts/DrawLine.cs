@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -292,20 +293,18 @@ public class DrawLine : MonoBehaviour
         {
             inputValue.SetActive(false);
         }
+
+        if (Rel.isRecursive)
+        {
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString();
+        }
+
+        else
+        {
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString();
+        }
         
-        if (value == '0')
-        {
-            Rel.value = '0';
-            Arrow.transform.Find("ButtomTransform1").gameObject.SetActive(false);    
-            Arrow.transform.Find("ButtomTransform0").gameObject.SetActive(true);
-        }
-                    
-        else if (value == '1')
-        {
-            Rel.value = '1';
-            Arrow.transform.Find("ButtomTransform0").gameObject.SetActive(false);
-            Arrow.transform.Find("ButtomTransform1").gameObject.SetActive(true);
-        }
+        Rel.value = value.Value;
 
         value = null;
         inputValue.transform.Find("InputField").GetComponent<InputField>().Select();
@@ -322,77 +321,31 @@ public class DrawLine : MonoBehaviour
         {
             inputValue.SetActive(false);
         }
-
-        if (value == '0')
-        {
-            ((TuringRelation) Rel).value = '0';
-            Arrow.transform.Find("LeftTransform0").gameObject.SetActive(true);
-            Arrow.transform.Find("LeftTransform1").gameObject.SetActive(false);
-            Arrow.transform.Find("LeftTransform#").gameObject.SetActive(false);
-        }
         
-        else if (value == '1')
-        {
-            ((TuringRelation) Rel).value = '1';
-            Arrow.transform.Find("LeftTransform0").gameObject.SetActive(false);
-            Arrow.transform.Find("LeftTransform1").gameObject.SetActive(true);
-            Arrow.transform.Find("LeftTransform#").gameObject.SetActive(false);
-        }
-        
-        else if (value == '#')
-        {
-            ((TuringRelation) Rel).value = '#';
-            Arrow.transform.Find("LeftTransform0").gameObject.SetActive(false);
-            Arrow.transform.Find("LeftTransform1").gameObject.SetActive(false);
-            Arrow.transform.Find("LeftTransform#").gameObject.SetActive(true);
-        }
+        ((TuringRelation) Rel).value = value.Value;
+        ((TuringRelation) Rel).valueToChange = changeValue.Value;
 
-        if (RightOrLeft == 'r')
+        if (RightOrLeft == 'r' || RightOrLeft == 'R')
         {
             ((TuringRelation) Rel).isRight = true;
-            Arrow.transform.Find("RightLetterTransform").gameObject.SetActive(true);
-            Arrow.transform.Find("LeftLetterTransform").gameObject.SetActive(false);
-            if (Rel.isRecursive)
-            {
-                Arrow.transform.Find("RightLetterTransform").transform.rotation= Quaternion.Euler(Vector3.forward * 360);
-            }
-        }
-        
-        else if (RightOrLeft == 'l')
-        {
-            ((TuringRelation) Rel).isRight = false;
-            Arrow.transform.Find("RightLetterTransform").gameObject.SetActive(false);
-            Arrow.transform.Find("LeftLetterTransform").gameObject.SetActive(true);
-            if (Rel.isRecursive)
-            {
-                Arrow.transform.Find("LeftLetterTransform").transform.rotation= Quaternion.Euler(Vector3.forward * 360);
-            }
+            RightOrLeft = 'R';
         }
 
-        if (changeValue == '0')
+        else
         {
-            ((TuringRelation) Rel).valueToChange = '0';
-            Arrow.transform.Find("RightTransform0").gameObject.SetActive(true);
-            Arrow.transform.Find("RightTransform1").gameObject.SetActive(false);
-            Arrow.transform.Find("RightTransform#").gameObject.SetActive(false);
-        }
-        
-        else if (changeValue == '1')
-        {
-            ((TuringRelation) Rel).valueToChange = '1';
-            Arrow.transform.Find("RightTransform0").gameObject.SetActive(false);
-            Arrow.transform.Find("RightTransform1").gameObject.SetActive(true);
-            Arrow.transform.Find("RightTransform#").gameObject.SetActive(false);
-        }
-        
-        else if (changeValue == '#')
-        {
-            ((TuringRelation) Rel).valueToChange = '#';
-            Arrow.transform.Find("RightTransform0").gameObject.SetActive(false);
-            Arrow.transform.Find("RightTransform1").gameObject.SetActive(false);
-            Arrow.transform.Find("RightTransform#").gameObject.SetActive(true);
+            RightOrLeft = 'L';
         }
 
+        if (Rel.isRecursive)
+        {
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+        }
+
+        else
+        {
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+        }
+        
         inputValue.transform.Find("InputField").GetComponent<InputField>().text = "";
     }
     

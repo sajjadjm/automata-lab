@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tape : MonoBehaviour
@@ -9,9 +10,9 @@ public class Tape : MonoBehaviour
     public GameObject Curser;
     public List<GameObject> Sectors = new List<GameObject>();
     public int counter = 0;
+    public GameObject startSector;
     
     private int sectorCounter;
-    private GameObject startSector;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class Tape : MonoBehaviour
     {
         foreach (var s in Sectors)
         {
-            s.transform.Find("#").gameObject.SetActive(true);
+            s.transform.Find("Text").GetComponent<TextMeshPro>().text = "#";
         }
     }
 
@@ -63,52 +64,14 @@ public class Tape : MonoBehaviour
         {
             Curser.transform.position = new Vector3(Sectors[Sectors.IndexOf(startSector) + 1].transform.position.x, Curser.transform.position.y, Curser.transform.position.z);
             startSector = Sectors[Sectors.IndexOf(startSector) + 1];
-            if (TuringBrain.Instance.Rels[counter].valueToChange == '1')
-            {
-                startSector.transform.Find("1").gameObject.SetActive(true);
-                startSector.transform.Find("0").gameObject.SetActive(false);
-                startSector.transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.Rels[counter].valueToChange == '0')
-            {
-                startSector.transform.Find("0").gameObject.SetActive(true);
-                startSector.transform.Find("1").gameObject.SetActive(false);
-                startSector.transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.Rels[counter].valueToChange == '#')
-            {
-                startSector.transform.Find("#").gameObject.SetActive(true);
-                startSector.transform.Find("0").gameObject.SetActive(false);
-                startSector.transform.Find("1").gameObject.SetActive(false);
-            }
+            startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = TuringBrain.Instance.Rels[counter].valueToChange.ToString();
         }
         
         else
         {
             Curser.transform.position = new Vector3(Sectors[Sectors.IndexOf(startSector) - 1].transform.position.x, Curser.transform.position.y, Curser.transform.position.z);
             startSector = Sectors[Sectors.IndexOf(startSector) - 1];
-            if (TuringBrain.Instance.Rels[counter].valueToChange == '1')
-            {
-                startSector.transform.Find("1").gameObject.SetActive(true);
-                startSector.transform.Find("0").gameObject.SetActive(false);
-                startSector.transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.Rels[counter].valueToChange == '0')
-            {
-                startSector.transform.Find("0").gameObject.SetActive(true);
-                startSector.transform.Find("1").gameObject.SetActive(false);
-                startSector.transform.Find("#").gameObject.SetActive(false);
-            }
-            
-            else if (TuringBrain.Instance.Rels[counter].valueToChange == '#')
-            {
-                startSector.transform.Find("#").gameObject.SetActive(true);
-                startSector.transform.Find("0").gameObject.SetActive(false);
-                startSector.transform.Find("1").gameObject.SetActive(false);
-            }
+            startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = TuringBrain.Instance.Rels[counter].valueToChange.ToString();
         }
         
         counter++;
