@@ -61,8 +61,7 @@ public class TuringBrain : MonoBehaviour
         for (int i = 0;; i++)
         {
             Steps.Add(startState);
-
-
+            
             if (startState.relatedOutLines.Count == 0)
             {
                 if (!startState.isEnd)

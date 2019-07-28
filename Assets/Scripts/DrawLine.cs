@@ -16,8 +16,6 @@ public class DrawLine : MonoBehaviour
     public Material lineMaterial;
     public float lineWidth;
     public GameObject inputValue;
-    public GameObject inputChangeValue;
-    public GameObject inputRightOrLeft;
     public List<GameObject> Lines = new List<GameObject>();
     public List<Relation> Relations = new List<Relation>();
     public List<TuringRelation> TuringRelations = new List<TuringRelation>();
@@ -118,13 +116,14 @@ public class DrawLine : MonoBehaviour
                     }
                 }
 
-                if (lineEndPoint != lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && canDraw && !recursive)
+                if (lineEndPoint != lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && !inputValue.activeSelf && canDraw && !recursive)
                 {
                     Vector3 dir = lineEndPoint - lineStartPoint;
                     Vector3 pos = (lineEndPoint + lineStartPoint) / 2;
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
                     var gameObject = new GameObject();
                     gameObject.name = "Line" + counter;
+                    gameObject.tag = "Line";
                     var lineRenderer = gameObject.AddComponent<LineRenderer>();
                     lineRenderer.material = lineMaterial;
                     lineRenderer.SetPositions(new Vector3[] {lineStartPoint, lineEndPoint});
@@ -179,7 +178,7 @@ public class DrawLine : MonoBehaviour
                     counter += 1;
                 }
 
-                if (lineEndPoint != lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && canDraw && recursive)
+                if (lineEndPoint != lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && !inputValue.activeSelf && canDraw && recursive)
                 {
                     Vector3 dir = lineEndPoint - lineStartPoint;
                     Vector2 lineStartPoint2D = lineStartPoint;
@@ -262,7 +261,7 @@ public class DrawLine : MonoBehaviour
                     counter += 1;
                 }
 
-                if (lineEndPoint == lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && canDraw && !recursive)
+                if (lineEndPoint == lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && !inputValue.activeSelf && canDraw && !recursive)
                 {
                     startState.stateGameObject.transform.Find("ReturnRel").GetComponent<SpriteRenderer>().enabled = true;
                     Arrow = startState.stateGameObject;
@@ -347,6 +346,69 @@ public class DrawLine : MonoBehaviour
         }
         
         inputValue.transform.Find("InputField").GetComponent<InputField>().text = "";
+    }
+
+    public void TuringEdit()
+    {
+        value = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[0];
+        RightOrLeft = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[1];
+        changeValue = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[2];
+        
+        if (EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text.Trim() != "")
+        {
+            EditArrow.Instance.editArrowPanel.SetActive(false);
+        }
+        
+        ((TuringRelation) Rel).value = value.Value;
+        ((TuringRelation) Rel).valueToChange = changeValue.Value;
+
+        if (RightOrLeft == 'r' || RightOrLeft == 'R')
+        {
+            ((TuringRelation) Rel).isRight = true;
+            RightOrLeft = 'R';
+        }
+
+        else
+        {
+            RightOrLeft = 'L';
+        }
+
+        if (Rel.isRecursive)
+        {
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+        }
+
+        else
+        {
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+        }
+        
+        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
+    }
+
+    public void DFAEdit()
+    {
+        value = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[0];
+        if (EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text.Trim() != "")
+        {
+            EditArrow.Instance.editArrowPanel.SetActive(false);
+        }
+
+        if (Rel.isRecursive)
+        {
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString();
+        }
+
+        else
+        {
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString();
+        }
+        
+        Rel.value = value.Value;
+
+        value = null;
+        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().Select();
+        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
     }
     
     public Vector3? GetMouseCameraPoint()
