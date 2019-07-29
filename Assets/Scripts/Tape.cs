@@ -63,7 +63,7 @@ public class Tape : MonoBehaviour
         
         if (counter == TuringBrain.Instance.Steps.Count - 1)
         {
-            TuringBrain.Instance.Steps[counter].stateGameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            TuringBrain.Instance.Steps[counter].stateGameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
         }
 
         else

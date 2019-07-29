@@ -17,7 +17,7 @@ public class ShowSteps : MonoBehaviour
     {
         if (counter == DFABrain.Instance.Steps.Count - 1)
         {
-            DFABrain.Instance.Steps[counter].stateGameObject.GetComponent<SpriteRenderer>().color = Color.red;
+            DFABrain.Instance.Steps[counter].stateGameObject.GetComponent<SpriteRenderer>().color = Color.magenta;
         }
 
         else

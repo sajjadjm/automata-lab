@@ -10,6 +10,8 @@ public class DFABrain : MonoBehaviour
     public InputField input;
     public bool Accepted = true;
     public List<State> Steps = new List<State>();
+    public Text acceptedText;
+    public Text rejectedText;
 
     private string inputValue = "";
     private State startState;
@@ -82,6 +84,18 @@ public class DFABrain : MonoBehaviour
         }
 
         Debug.Log(Accepted);
+
+        if (Accepted)
+        {
+            rejectedText.gameObject.SetActive(false);
+            acceptedText.gameObject.SetActive(true);
+        }
+
+        else
+        {
+            rejectedText.gameObject.SetActive(true);
+            acceptedText.gameObject.SetActive(false);
+        }
 
         input.text = "";
         Accepted = true;

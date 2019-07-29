@@ -18,7 +18,6 @@ public class DrawLine : MonoBehaviour
     public GameObject inputValue;
     public List<GameObject> Lines = new List<GameObject>();
     public List<Relation> Relations = new List<Relation>();
-    public List<TuringRelation> TuringRelations = new List<TuringRelation>();
 
     private new Camera camera;
     private Vector3 lineStartPoint;
@@ -330,7 +329,7 @@ public class DrawLine : MonoBehaviour
             RightOrLeft = 'R';
         }
 
-        else
+        else if (RightOrLeft == 'l' || RightOrLeft == 'L')
         {
             RightOrLeft = 'L';
         }

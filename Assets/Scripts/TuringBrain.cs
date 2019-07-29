@@ -13,6 +13,8 @@ public class TuringBrain : MonoBehaviour
     public List<State> Steps = new List<State>();
     public List<TuringRelation> Rels = new List<TuringRelation>();
     public string inputValue = "";
+    public Text acceptedText;
+    public Text rejectedText;
 
     private void Awake()
     {
@@ -105,6 +107,19 @@ public class TuringBrain : MonoBehaviour
             }
         }
         Debug.Log(Accepted);
+        
+        if (Accepted)
+        {
+            rejectedText.gameObject.SetActive(false);
+            acceptedText.gameObject.SetActive(true);
+        }
+
+        else
+        {
+            rejectedText.gameObject.SetActive(true);
+            acceptedText.gameObject.SetActive(false);
+        }
+        
         Accepted = true;
         Tape.Instance.counter = 0;
     }
