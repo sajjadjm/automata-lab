@@ -31,9 +31,11 @@ public class DrawLine : MonoBehaviour
     private bool isRight;
     private Relation antiRecursiveRel;
     private Relation Rel;
+    private Relation relToAdd;
     private char? value;
     private char? changeValue;
     private char? RightOrLeft;
+    private float iniRot = 0.0f;
 
     private void Awake()
     {
@@ -260,7 +262,8 @@ public class DrawLine : MonoBehaviour
                     counter += 1;
                 }
 
-                if (lineEndPoint == lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && !inputValue.activeSelf && canDraw && !recursive)
+                if (lineEndPoint == lineStartPoint && hit.collider.gameObject.tag != "MainCamera" && !inputValue.activeSelf
+                    && canDraw && !recursive)
                 {
                     startState.stateGameObject.transform.Find("ReturnRel").GetComponent<SpriteRenderer>().enabled = true;
                     Arrow = startState.stateGameObject;
@@ -295,11 +298,13 @@ public class DrawLine : MonoBehaviour
         if (Rel.isRecursive)
         {
             Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString();
+            Arrow.transform.Find("Text2").transform.eulerAngles = Vector3.forward * iniRot;
         }
 
         else
         {
             Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString();
+            Arrow.transform.Find("Text").transform.eulerAngles = Vector3.forward * iniRot;
         }
         
         Rel.value = value.Value;
@@ -336,12 +341,14 @@ public class DrawLine : MonoBehaviour
 
         if (Rel.isRecursive)
         {
-            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text2").transform.eulerAngles = Vector3.forward * iniRot;
         }
 
         else
         {
-            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text").transform.eulerAngles = Vector3.forward * iniRot;
         }
         
         inputValue.transform.Find("InputField").GetComponent<InputField>().text = "";
@@ -374,12 +381,14 @@ public class DrawLine : MonoBehaviour
 
         if (Rel.isRecursive)
         {
-            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text2").transform.eulerAngles = Vector3.forward * iniRot;
         }
 
         else
         {
-            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString() + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value + " " + RightOrLeft + " " + changeValue;
+            Arrow.transform.Find("Text").transform.eulerAngles = Vector3.forward * iniRot;
         }
         
         EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
@@ -396,11 +405,13 @@ public class DrawLine : MonoBehaviour
         if (Rel.isRecursive)
         {
             Arrow.transform.Find("Text2").GetComponent<TextMeshPro>().text = value.ToString();
+            Arrow.transform.Find("Text2").transform.eulerAngles = Vector3.forward * iniRot;
         }
 
         else
         {
             Arrow.transform.Find("Text").GetComponent<TextMeshPro>().text = value.ToString();
+            Arrow.transform.Find("Text").transform.eulerAngles = Vector3.forward * iniRot;
         }
         
         Rel.value = value.Value;
