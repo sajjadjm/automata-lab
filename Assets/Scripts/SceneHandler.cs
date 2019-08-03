@@ -28,4 +28,9 @@ public class SceneHandler : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+    public void closeValidation()
+    {
+        WebRequest.Instance.inputSerial.SetActive(false);
+    }
 }
