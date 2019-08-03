@@ -36,7 +36,7 @@ public class Tape : MonoBehaviour
             Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
             RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
 
-            if (hit.collider.gameObject.tag == "Sector")
+            if (hit.collider.gameObject.tag == "Sector" && MultiInputs.Instance.InputFields.activeSelf == false)
             {
                 Curser.transform.position = new Vector3(hit.collider.gameObject.transform.position.x, Curser.transform.position.y, Curser.transform.position.z);
                 startSector = hit.collider.gameObject;

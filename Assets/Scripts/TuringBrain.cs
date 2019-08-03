@@ -27,19 +27,15 @@ public class TuringBrain : MonoBehaviour
     {
         Tape.Instance.canResetTape = true;
         Tape.Instance.counter = 0;
-
+        
         foreach (var s in Steps)
         {
             if (s != null)
             {
                 s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
             }
-            else
-            {
-                break;
-            }
         }
-        
+
         foreach (var s in Tape.Instance.Sectors)
         {
             s.transform.Find("Text").GetComponent<TextMeshPro>().text = "#";
@@ -57,6 +53,7 @@ public class TuringBrain : MonoBehaviour
 
     public void Solve()
     {
+        Steps.Clear();
         State startState = null;
         TuringRelation rel = null;
         GameObject startSector = Tape.Instance.startSector;
@@ -78,7 +75,6 @@ public class TuringBrain : MonoBehaviour
                 if (!startState.isEnd)
                 {
                     Accepted = false;
-                    Debug.Log("no rel");
                 }
                 break;
             }
@@ -99,7 +95,6 @@ public class TuringBrain : MonoBehaviour
                 if (!startState.isEnd)
                 {
                     Accepted = false;
-                    Debug.Log("no truth");
                 }
                 break;
             }
@@ -109,7 +104,6 @@ public class TuringBrain : MonoBehaviour
                 if (!startState.isEnd)
                 {
                     Accepted = false;
-                    Debug.Log("nooooooooooooo rel");
                 }
                 break;
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoveState : MonoBehaviour
 {
@@ -49,6 +50,15 @@ public class MoveState : MonoBehaviour
                 if (s.Name == hit.collider.gameObject.name)
                 {
                     DrawState.Instance.States.Remove(s);
+                    if (SceneManager.GetActiveScene().buildIndex == 1)
+                    {
+                        DFABrain.Instance.Steps.Remove(s);
+                    }
+
+                    else if(SceneManager.GetActiveScene().buildIndex == 2)
+                    {
+                        TuringBrain.Instance.Steps.Remove(s);
+                    }
                 }
             }
             

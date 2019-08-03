@@ -27,7 +27,10 @@ public class DFABrain : MonoBehaviour
 
         foreach (var s in Steps)
         {
-            s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            if (s != null)
+            {
+                s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            }
         }
         
         Relation rel = null;

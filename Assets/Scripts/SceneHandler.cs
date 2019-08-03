@@ -8,16 +8,24 @@ public class SceneHandler : MonoBehaviour
 {
     public void DFAButton()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     
     public void TuringButton()
     {
-        SceneManager.LoadScene(1);
+        if (WebRequest.Instance.validateFlag == 1)
+        {
+            SceneManager.LoadScene(2);
+        }
+
+        else
+        {
+            WebRequest.Instance.inputSerial.SetActive(true);
+        }
     }
 
     public void MenuButton()
     {
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(0);
     }
 }

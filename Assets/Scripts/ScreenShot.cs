@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ScreenShot : MonoBehaviour
 {
+    private string folderPath = "C:/Users/SAJJAD/Documents/";
     private void Start()
     {
         PlayerPrefs.SetInt("counter", 0);
@@ -13,7 +14,9 @@ public class ScreenShot : MonoBehaviour
     public void Shot()
     {
         int counter = PlayerPrefs.GetInt("counter");
-        ScreenCapture.CaptureScreenshot("picture" + PlayerPrefs.GetInt("counter") + ".png");
+        if(!System.IO.Directory.Exists(folderPath))
+            System.IO.Directory.CreateDirectory(folderPath);
+        ScreenCapture.CaptureScreenshot(folderPath + "picture" + PlayerPrefs.GetInt("counter") + ".png");
         PlayerPrefs.SetInt("counter", counter + 1);
     }
 }

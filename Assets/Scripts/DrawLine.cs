@@ -49,13 +49,13 @@ public class DrawLine : MonoBehaviour
     private void Start()
     {
         camera = GetComponent<Camera>();
-        if (SceneManager.GetActiveScene().buildIndex == 0)
+        if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             inputValue.transform.Find("InputField").GetComponent<InputField>().characterLimit = 1;
             valueDistance = 0.4f;
         }
         
-        else if (SceneManager.GetActiveScene().buildIndex == 1)
+        else if (SceneManager.GetActiveScene().buildIndex == 2)
         {
             inputValue.transform.Find("InputField").GetComponent<InputField>().characterLimit = 3;
             valueDistance = 0.8f;
@@ -64,10 +64,13 @@ public class DrawLine : MonoBehaviour
 
     private void Update()
     {
+        
         if (DrawState.Instance.settings.value == 3)
         {
+            
             if (Input.GetMouseButtonDown(0))
             {
+                
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 mousePos2D = new Vector2(mousePos.x, mousePos.y);
                 RaycastHit2D hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
@@ -82,12 +85,13 @@ public class DrawLine : MonoBehaviour
                         }
                     }
                 }
-
+                
                 else
                 {
                     canDraw = false;
                 }
             }
+            
             else if (Input.GetMouseButtonUp(0))
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -104,12 +108,12 @@ public class DrawLine : MonoBehaviour
                         }
                     }
                 }
-
+                
                 else
                 {
                     canDraw = false;
                 }
-
+                
                 foreach (var rel in Relations)
                 {
                     if (rel.startState == startState && rel.endState == EndState)
@@ -164,7 +168,6 @@ public class DrawLine : MonoBehaviour
                             addInputValue.SetActive(true);
                         }
                     }
-
                     if (rel.startState == EndState && rel.endState == startState)
                     {
                         recursive = true;
@@ -187,7 +190,7 @@ public class DrawLine : MonoBehaviour
                     lineRenderer.SetPositions(new Vector3[] {lineStartPoint, lineEndPoint});
                     lineRenderer.startWidth = lineWidth;
                     lineRenderer.endWidth = lineWidth;
-                    if (SceneManager.GetActiveScene().buildIndex == 0)
+                    if (SceneManager.GetActiveScene().buildIndex == 1)
                     {
                         Arrow = Instantiate(arrow, pos, Quaternion.AngleAxis(angle + 90, Vector3.forward));
                         Arrow.transform.SetParent(lineRenderer.GetComponent<Transform>());
@@ -210,7 +213,7 @@ public class DrawLine : MonoBehaviour
                         }
                     }
                     
-                    else if (SceneManager.GetActiveScene().buildIndex == 1)
+                    else if (SceneManager.GetActiveScene().buildIndex == 2)
                     {
                         Arrow = Instantiate(turingArrow, pos, Quaternion.AngleAxis(angle + 90, Vector3.forward));
                         Arrow.transform.SetParent(lineRenderer.GetComponent<Transform>());
@@ -259,7 +262,7 @@ public class DrawLine : MonoBehaviour
                     lineRenderer.SetPositions(new Vector3[] {newLineStartPoint, newLineEndPoint});
                     lineRenderer.startWidth = lineWidth;
                     lineRenderer.endWidth = lineWidth;
-                    if (SceneManager.GetActiveScene().buildIndex == 0)
+                    if (SceneManager.GetActiveScene().buildIndex == 1)
                     {
                         Arrow = Instantiate(arrow, pos, Quaternion.AngleAxis(angle + 90, Vector3.forward));
                         Arrow.transform.SetParent(lineRenderer.GetComponent<Transform>());
@@ -282,7 +285,7 @@ public class DrawLine : MonoBehaviour
                         }
                     }
                     
-                    else if (SceneManager.GetActiveScene().buildIndex == 1)
+                    else if (SceneManager.GetActiveScene().buildIndex == 2)
                     {
                         Arrow = Instantiate(turingArrow, pos, Quaternion.AngleAxis(angle + 90, Vector3.forward));
                         Arrow.transform.SetParent(lineRenderer.GetComponent<Transform>());
@@ -494,73 +497,6 @@ public class DrawLine : MonoBehaviour
         }
         
         inputValue.transform.Find("InputField").GetComponent<InputField>().text = "";
-    }
-
-    public void TuringEdit()
-    {
-        value = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[0];
-        RightOrLeft = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[2];
-        changeValue = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[1];
-        
-        if (EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text.Trim() != "")
-        {
-            EditArrow.Instance.editArrowPanel.SetActive(false);
-        }
-        
-        EditArrow.Instance.TurRel.value = value.Value;
-        EditArrow.Instance.TurRel.valueToChange = changeValue.Value;
-
-        if (RightOrLeft == 'r' || RightOrLeft == 'R')
-        {
-            EditArrow.Instance.TurRel.isRight = true;
-            RightOrLeft = 'R';
-        }
-
-        else
-        {
-            RightOrLeft = 'L';
-        }
-
-        if (EditArrow.Instance.TurRel.isRecursive)
-        {
-            EditArrow.Instance.TurRel.Arrow.transform.Find(EditArrow.Instance.textName).GetComponent<TextMeshPro>().text = value + " " + changeValue + " " + RightOrLeft;
-            EditArrow.Instance.TurRel.Arrow.transform.Find(EditArrow.Instance.textName).transform.eulerAngles = Vector3.forward * iniRot;
-        }
-
-        else
-        {
-            EditArrow.Instance.TurRel.Arrow.transform.Find(EditArrow.Instance.textName).GetComponent<TextMeshPro>().text = value + " " + changeValue + " " + RightOrLeft;
-            EditArrow.Instance.TurRel.Arrow.transform.Find(EditArrow.Instance.textName).transform.eulerAngles = Vector3.forward * iniRot;
-        }
-        
-        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
-    }
-
-    public void DFAEdit()
-    {
-        value = EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text[0];
-        if (EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text.Trim() != "")
-        {
-            EditArrow.Instance.editArrowPanel.SetActive(false);
-        }
-
-        if (EditArrow.Instance.DFARel.isRecursive)
-        {
-            EditArrow.Instance.DFARel.Arrow.transform.Find(EditArrow.Instance.textName).GetComponent<TextMeshPro>().text = value.ToString();
-            EditArrow.Instance.DFARel.Arrow.transform.Find(EditArrow.Instance.textName).transform.eulerAngles = Vector3.forward * iniRot;
-        }
-
-        else
-        {
-            EditArrow.Instance.DFARel.Arrow.transform.Find(EditArrow.Instance.textName).GetComponent<TextMeshPro>().text = value.ToString();
-            EditArrow.Instance.DFARel.Arrow.transform.Find(EditArrow.Instance.textName).transform.eulerAngles = Vector3.forward * iniRot;
-        }
-        
-        EditArrow.Instance.DFARel.value = value.Value;
-
-        value = null;
-        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().Select();
-        EditArrow.Instance.editArrowPanel.transform.Find("InputField").GetComponent<InputField>().text = "";
     }
     
     public Vector3? GetMouseCameraPoint()
