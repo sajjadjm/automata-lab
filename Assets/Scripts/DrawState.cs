@@ -44,20 +44,22 @@ public class DrawState : MonoBehaviour
                 if (settings.value == 1)
                 {
                     state = Instantiate(stateSprite[0], statePosition, Quaternion.identity);
-                    state.name = "state" + counter;
+                    state.name = "S" + counter;
                     state.gameObject.transform.Find("Name").GetComponent<TextMeshPro>().text = "S" + stateNumber;
                     stateNumber++;
-                    State s = new State(state, state.name, statePosition);
+                    State s = new State(state, "S" + counter);
+                    s.statePosition = state.transform.position;
                     States.Add(s);
                 }
 
                 else if(settings.value == 5)
                 {
                     state = Instantiate(stateSprite[1], statePosition, Quaternion.identity);
-                    state.name = "state" + counter;
+                    state.name = "S" + counter;
                     state.gameObject.transform.Find("Name").GetComponent<TextMeshPro>().text = "S" + stateNumber;
                     stateNumber++;
-                    State s = new State(state, state.name, statePosition);
+                    State s = new State(state, "S" + counter);
+                    s.statePosition = state.transform.position;
                     s.isEnd = true;
                     States.Add(s);
                 }
@@ -70,7 +72,8 @@ public class DrawState : MonoBehaviour
                     state.name = "StartState";
                     state.gameObject.transform.Find("Name").GetComponent<TextMeshPro>().text = "S" + stateNumber;
                     stateNumber++;
-                    State s = new State(state, state.name, statePosition);
+                    State s = new State(state, "StartState");
+                    s.statePosition = state.transform.position;
                     s.isStart = true;
                     States.Add(s);
                 }

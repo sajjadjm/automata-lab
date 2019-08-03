@@ -79,15 +79,15 @@ public class Tape : MonoBehaviour
         if (TuringBrain.Instance.Rels[counter].isRight)
         {
             Curser.transform.position = new Vector3(Sectors[Sectors.IndexOf(startSector) + 1].transform.position.x, Curser.transform.position.y, Curser.transform.position.z);
-            startSector = Sectors[Sectors.IndexOf(startSector) + 1];
             startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = TuringBrain.Instance.Rels[counter].valueToChange.ToString();
+            startSector = Sectors[Sectors.IndexOf(startSector) + 1];
         }
         
         else
         {
             Curser.transform.position = new Vector3(Sectors[Sectors.IndexOf(startSector) - 1].transform.position.x, Curser.transform.position.y, Curser.transform.position.z);
-            startSector = Sectors[Sectors.IndexOf(startSector) - 1];
             startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = TuringBrain.Instance.Rels[counter].valueToChange.ToString();
+            startSector = Sectors[Sectors.IndexOf(startSector) - 1];
         }
         
         counter++;

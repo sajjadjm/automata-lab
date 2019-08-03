@@ -16,6 +16,8 @@ public class TuringBrain : MonoBehaviour
     public Text acceptedText;
     public Text rejectedText;
 
+    private int truthCounter = 0;
+
     private void Awake()
     {
         Instance = this;
@@ -28,7 +30,14 @@ public class TuringBrain : MonoBehaviour
 
         foreach (var s in Steps)
         {
-            s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            if (s != null)
+            {
+                s.stateGameObject.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            else
+            {
+                break;
+            }
         }
         
         foreach (var s in Tape.Instance.Sectors)
@@ -60,7 +69,7 @@ public class TuringBrain : MonoBehaviour
             }
         }
 
-        for (int i = 0;; i++)
+        for (;;)
         {
             Steps.Add(startState);
             
@@ -69,8 +78,8 @@ public class TuringBrain : MonoBehaviour
                 if (!startState.isEnd)
                 {
                     Accepted = false;
+                    Debug.Log("no rel");
                 }
-
                 break;
             }
 
@@ -81,30 +90,43 @@ public class TuringBrain : MonoBehaviour
                     rel = (TuringRelation) r;
                     startState = rel.endState;
                     Rels.Add(rel);
+                    truthCounter++;
                 }
+            }
+
+            if (truthCounter == 0)
+            {
+                if (!startState.isEnd)
+                {
+                    Accepted = false;
+                    Debug.Log("no truth");
+                }
+                break;
             }
 
             if (rel == null)
             {
-                if (!rel.startState.isEnd)
+                if (!startState.isEnd)
                 {
                     Accepted = false;
+                    Debug.Log("nooooooooooooo rel");
                 }
-
                 break;
             }
+            
+            startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = rel.valueToChange.ToString();
 
             if (rel.isRight)
             {
                 startSector = Tape.Instance.Sectors[Tape.Instance.Sectors.IndexOf(startSector) + 1];
-                startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = rel.valueToChange.ToString();
             }
 
             else
             {
                 startSector = Tape.Instance.Sectors[Tape.Instance.Sectors.IndexOf(startSector) - 1];
-                startSector.transform.Find("Text").GetComponent<TextMeshPro>().text = rel.valueToChange.ToString();
             }
+
+            truthCounter = 0;
         }
         Debug.Log(Accepted);
         

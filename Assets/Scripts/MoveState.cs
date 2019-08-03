@@ -21,7 +21,7 @@ public class MoveState : MonoBehaviour
             hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
             deltaX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x - hit.collider.gameObject.transform.position.x;
             deltaY = Camera.main.ScreenToWorldPoint(Input.mousePosition).y - hit.collider.gameObject.transform.position.y;
-            if (hit.collider.gameObject.tag == "State" && hit.collider.gameObject.tag != "MainCamera")
+            if (hit.collider.gameObject.tag == "State" && hit.collider.gameObject.tag != "MainCamera" && hit.collider.gameObject.tag != "Sector")
             {
                 initialState = hit;
             }
@@ -35,7 +35,7 @@ public class MoveState : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && DrawState.Instance.settings.value == 2 && hit.collider.gameObject.tag != "MainCamera")
+        if (Input.GetMouseButtonDown(0) && DrawState.Instance.settings.value == 2 && hit.collider.gameObject.tag != "MainCamera" && hit.collider.gameObject.tag != "Sector")
         {
             if (hit.collider.gameObject.name == "StartState")
             {
@@ -67,7 +67,7 @@ public class MoveState : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0) && DrawState.Instance.settings.value == 4 && hit.collider.gameObject.tag != "MainCamera")
+        if (Input.GetMouseButton(0) && DrawState.Instance.settings.value == 4 && hit.collider.gameObject.tag != "MainCamera" && hit.collider.gameObject.tag != "Sector")
         {
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             hit.collider.gameObject.transform.position = new Vector3(mousePosition.x - deltaX, mousePosition.y - deltaY, -8.700012f);
